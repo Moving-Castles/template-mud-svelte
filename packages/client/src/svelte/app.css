@@ -1,0 +1,32 @@
+@import url("./public/fonts/index.css");
+
+:root {
+  /* Colors */
+  --black: #000000;
+  --white: #ffffff;
+  --background: var(--black);
+  --foreground: var(--white);
+  
+  /* Fonts */
+  --font-family: "courier new", "courier", monospace;
+  --font-size: 18px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  margin: 0;
+  padding: 0;
+  /* overscroll-behavior-y: none; */
+}

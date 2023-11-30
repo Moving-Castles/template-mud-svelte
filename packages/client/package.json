@@ -1,0 +1,50 @@
+{
+  "name": "client",
+  "license": "MIT",
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "wait-port localhost:8545 && vite",
+    "preview": "vite preview"
+  },
+  "staticFiles": {
+    "staticPath": "src/public"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^2.1.1",
+    "@sveltejs/kit": "^1.27.6",
+    "@sveltejs/vite-plugin-svelte": "^3.0.1",
+    "@tsconfig/svelte": "^5.0.2",
+    "@types/howler": "^2.2.11",
+    "@types/lodash": "^4.14.202",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "sass": "^1.69.5",
+    "svelte": "^4.2.7",
+    "vite": "5.0.4",
+    "wait-port": "^1.1.0"
+  },
+  "dependencies": {
+    "contracts": "workspace:*",
+    "@ethersproject/providers": "^5.7.2",
+    "@latticexyz/common": "2.0.0-next.14",
+    "@latticexyz/dev-tools": "2.0.0-next.14",
+    "@latticexyz/recs": "2.0.0-next.14",
+    "@latticexyz/schema-type": "2.0.0-next.14",
+    "@latticexyz/services": "2.0.0-next.14",
+    "@latticexyz/store-sync": "2.0.0-next.14",
+    "@latticexyz/utils": "2.0.0-next.14",
+    "@latticexyz/world": "2.0.0-next.14",
+    "@sanity/block-content-to-html": "^2.0.0",
+    "@sanity/client": "^6.7.0",
+    "@sanity/image-url": "^1.0.2",
+    "ethers": "^5.7.2",
+    "howler": "^2.2.3",
+    "lodash": "^4.17.21",
+    "rxjs": "^7.8.1",
+    "uuid": "^9.0.1",
+    "viem": "1.14.0"
+  }
+}
