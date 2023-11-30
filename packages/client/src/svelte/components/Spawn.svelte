@@ -1,6 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
+  import { toastMessage } from "../modules/ui/toast"
   import { spawn } from "../modules/action"
+  import { playSound } from "../modules/sound"
   import {
     waitForTransaction,
     waitForCompletion,
@@ -13,15 +15,25 @@
   let transactionState = TransactionState.READY
 
   const onSubmit = async () => {
-    transactionState = TransactionState.INITIATED
-    const action = spawn(name)
-    transactionState = TransactionState.WAITING
-    await waitForTransaction(action)
-    transactionState = TransactionState.SENT
-    await waitForCompletion(action)
-    transactionState = TransactionState.DONE
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    dispatch("done")
+    try {
+      playSound("snd", "click")
+      transactionState = TransactionState.INITIATED
+      const action = spawn(name)
+      transactionState = TransactionState.WAITING
+      await waitForTransaction(action)
+      transactionState = TransactionState.SENT
+      await waitForCompletion(action)
+      transactionState = TransactionState.DONE
+      playSound("snd", "success")
+      await new Promise(resolve => setTimeout(resolve, 500))
+      dispatch("done")
+    } catch (error) {
+      toastMessage(String(error), {
+        type: "error",
+        disappear: false,
+      })
+      transactionState = TransactionState.READY
+    }
   }
 </script>
 

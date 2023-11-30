@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { toastMessage } from "../modules/ui/toast"
   import { increment } from "../modules/action"
+  import { playSound } from "../modules/sound"
   import { localPlayer, leaderBoard } from "../modules/state"
   import {
     waitForTransaction,
@@ -7,16 +9,34 @@
     TransactionState,
   } from "../modules/action/actionSequencer/utils"
 
+  const GLYPHS = ["/", "–", "\\", "|"]
   let transactionState = TransactionState.READY
+  let spinner = "|"
+
+  function loadingSpinner(index: number) {
+    playSound("snd", "progress")
+    spinner = GLYPHS[index % GLYPHS.length]
+  }
 
   const sendIncrement = async () => {
-    transactionState = TransactionState.INITIATED
-    const action = increment()
-    transactionState = TransactionState.WAITING
-    await waitForTransaction(action)
-    transactionState = TransactionState.SENT
-    await waitForCompletion(action)
-    transactionState = TransactionState.READY
+    try {
+      playSound("snd", "click")
+      transactionState = TransactionState.WAITING
+      const action = increment()
+      await waitForTransaction(action)
+      transactionState = TransactionState.SENT
+      playSound("snd", "progress")
+      await waitForCompletion(action, loadingSpinner)
+      playSound("snd", "success")
+      transactionState = TransactionState.READY
+    } catch (error) {
+      playSound("snd", "failure")
+      toastMessage(String(error), {
+        type: "error",
+        disappear: false,
+      })
+      transactionState = TransactionState.READY
+    }
   }
 </script>
 
@@ -26,7 +46,13 @@
       on:click={sendIncrement}
       class:disabled={transactionState !== TransactionState.READY}
     >
-      {$localPlayer.counter}
+      {#if transactionState === TransactionState.READY}
+        {$localPlayer.counter}
+      {:else if transactionState === TransactionState.WAITING}
+        |||
+      {:else if transactionState === TransactionState.SENT}
+        {@html spinner}
+      {/if}
     </button>
   </div>
 
@@ -59,7 +85,10 @@
     cursor: pointer;
     font-family: var(--font-family);
     font-size: var(--font-size);
-    padding: 20px 40px;
+    width: 12ch;
+    height: 6ch;
+    user-select: none;
+    border-style: double;
   }
 
   button.disabled {
