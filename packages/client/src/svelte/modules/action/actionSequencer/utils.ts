@@ -21,7 +21,7 @@ export const waitForTransaction = (
     loadingFunction?: (index: number) => {}
 ): Promise<Action> => {
     return new Promise((resolve, reject) => {
-        const maxRetries = 50
+        const maxRetries = 150
         let attempts = 0
         let index = 0
 
@@ -59,7 +59,7 @@ export const waitForCompletion = (
     loadingFunction?: (index: number) => {}
 ): Promise<Action> => {
     return new Promise((resolve, reject) => {
-        const maxRetries = 100 // just an example, set to however many retries you want
+        const maxRetries = 150
         let attempts = 0
         let index = 0
 
