@@ -4,7 +4,7 @@ export enum TransactionState {
     READY,
     INITIATED,
     WAITING,
-    SENT,
+    SENDING,
     DONE,
 }
 
@@ -18,7 +18,7 @@ export enum TransactionState {
  */
 export const waitForTransaction = (
     action: Action,
-    loadingFunction?: (index: number) => {}
+    loadingFunction?: (index: number) => void
 ): Promise<Action> => {
     return new Promise((resolve, reject) => {
         const maxRetries = 150
@@ -56,7 +56,7 @@ export const waitForTransaction = (
  */
 export const waitForCompletion = (
     action: Action,
-    loadingFunction?: (index: number) => {}
+    loadingFunction?: (index: number) => void
 ): Promise<Action> => {
     return new Promise((resolve, reject) => {
         const maxRetries = 150

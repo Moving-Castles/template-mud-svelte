@@ -4,7 +4,6 @@
   import { spawn } from "../modules/action"
   import { playSound } from "../modules/sound"
   import {
-    waitForTransaction,
     waitForCompletion,
     TransactionState,
   } from "../modules/action/actionSequencer/utils"
@@ -19,9 +18,7 @@
       playSound("snd", "click")
       transactionState = TransactionState.INITIATED
       const action = spawn(name)
-      transactionState = TransactionState.WAITING
-      await waitForTransaction(action)
-      transactionState = TransactionState.SENT
+      transactionState = TransactionState.SENDING
       await waitForCompletion(action)
       transactionState = TransactionState.DONE
       playSound("snd", "success")

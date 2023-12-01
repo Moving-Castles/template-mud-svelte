@@ -4,7 +4,6 @@
   import { playSound } from "../modules/sound"
   import { localPlayer, leaderBoard } from "../modules/state"
   import {
-    waitForTransaction,
     waitForCompletion,
     TransactionState,
   } from "../modules/action/actionSequencer/utils"
@@ -21,11 +20,8 @@
   const sendIncrement = async () => {
     try {
       playSound("snd", "click")
-      transactionState = TransactionState.WAITING
+      transactionState = TransactionState.SENDING
       const action = increment()
-      await waitForTransaction(action)
-      transactionState = TransactionState.SENT
-      playSound("snd", "progress")
       await waitForCompletion(action, loadingSpinner)
       playSound("snd", "success")
       transactionState = TransactionState.READY
@@ -48,9 +44,7 @@
     >
       {#if transactionState === TransactionState.READY}
         {$localPlayer.counter}
-      {:else if transactionState === TransactionState.WAITING}
-        |||
-      {:else if transactionState === TransactionState.SENT}
+      {:else if transactionState === TransactionState.SENDING}
         {@html spinner}
       {/if}
     </button>
@@ -110,7 +104,7 @@
   }
 
   .split.right {
-    background: green;
+    background: seagreen;
     padding: 10px;
   }
 
